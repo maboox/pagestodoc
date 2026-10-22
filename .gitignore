@@ -23,3 +23,14 @@ Desktop.ini
 conversion-errors.txt
 pages-job-*/
 *.log
+node_modules/
+test-results/
+playwright-report/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.bundle

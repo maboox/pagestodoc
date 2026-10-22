@@ -1,69 +1,303 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Pages Converter — تبدیل Pages به Word</title>
-  <style>
-    :root{color-scheme:light dark;--bg:#f6f7f9;--card:#fff;--text:#202124;--muted:#667085;--border:#dfe3e8;--blue:#2783de;--blue-soft:#e9f3fd;--green:#2f855a;--red:#c2413b;--shadow:0 1px 2px rgba(16,24,40,.04),0 8px 24px rgba(16,24,40,.06)}
-    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;line-height:1.55}
-    main{width:min(760px,calc(100% - 32px));margin:0 auto;padding:42px 0}header{text-align:center;margin-bottom:24px}.mark{width:56px;height:56px;margin:0 auto 14px;border-radius:14px;background:var(--blue);color:white;display:grid;place-items:center;box-shadow:var(--shadow)}
-    h1{font-size:clamp(28px,5vw,40px);line-height:1.2;margin:0 0 8px;letter-spacing:-.5px}header p{margin:0;color:var(--muted);font-size:16px}.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:var(--shadow)}
-    .drop{position:relative;min-height:190px;border:2px dashed #b8c0ca;border-radius:12px;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;transition:.18s ease;background:linear-gradient(180deg,transparent,rgba(39,131,222,.025))}.drop.drag{border-color:var(--blue);background:var(--blue-soft);transform:translateY(-1px)}.drop>input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
-    .upload-icon{width:48px;height:48px;margin:0 auto 12px;border-radius:12px;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center}.drop strong{display:block;font-size:18px;margin-bottom:4px}.drop span{color:var(--muted);font-size:14px}
-    .folder-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:14px}.folder-button{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 16px;border:1px solid var(--blue);border-radius:9px;color:var(--blue);font-weight:700;cursor:pointer;background:var(--blue-soft)}.folder-button input{position:absolute;width:1px;height:1px;opacity:0}.folder-note{color:var(--muted);font-size:13px}
-    .files{margin-top:16px;display:none}.files.visible{display:block}.files-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.files-head strong{font-size:14px}.clear{border:0;background:transparent;color:var(--red);font:inherit;cursor:pointer;padding:8px}
-    ul{list-style:none;margin:0;padding:0;max-height:180px;overflow:auto;border:1px solid var(--border);border-radius:10px}li{display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid var(--border);font-size:14px}li:last-child{border-bottom:0}.file-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;direction:ltr;text-align:left;flex:1}.size{color:var(--muted);white-space:nowrap}
-    button.primary{margin-top:16px;width:100%;min-height:50px;border:0;border-radius:10px;background:var(--blue);color:#fff;font:inherit;font-weight:700;cursor:pointer;transition:.15s ease}button.primary:hover:not(:disabled){filter:brightness(.95);transform:translateY(-1px)}button.primary:disabled{opacity:.45;cursor:not-allowed}.progress{display:none;margin-top:16px;padding:14px;border:1px solid var(--border);border-radius:10px;background:var(--bg)}.progress.show{display:block}.progress-head,.stats{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:13px}.progress-head strong{font-size:15px}.track{height:10px;margin:10px 0;border-radius:6px;background:var(--border);overflow:hidden}.bar{height:100%;width:0;background:var(--blue);border-radius:6px;transition:width .3s ease}.current{direction:ltr;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--muted);font-size:13px;margin-bottom:9px}.stats{color:var(--muted);justify-content:flex-start;gap:20px}.status{display:none;margin-top:14px;border-radius:10px;padding:12px 14px;font-size:14px}.status.show{display:block}.status.info{background:var(--blue-soft);color:#155b96}.status.success{background:#e8f4ed;color:var(--green)}.status.error{background:#fce9e7;color:var(--red)}
-    .privacy{display:flex;align-items:flex-start;gap:10px;margin:16px 4px 0;color:var(--muted);font-size:14px}.privacy svg{flex:none;margin-top:2px;color:var(--green)}footer{text-align:center;color:var(--muted);font-size:13px;margin-top:20px}:focus-visible{outline:3px solid rgba(39,131,222,.35);outline-offset:2px}
-    @media(max-width:560px){main{padding:24px 0}.card{padding:16px}.drop{min-height:175px;padding:18px}.folder-row{flex-direction:column;gap:6px}}
-    @media(prefers-color-scheme:dark){:root{--bg:#191919;--card:#202020;--text:#fff;--muted:rgba(255,255,255,.65);--border:rgba(255,255,255,.18);--blue:#5e9fe8;--blue-soft:rgba(94,159,232,.12);--green:#72bc8f;--red:#e97366;--shadow:none}.drop{border-color:rgba(255,255,255,.3)}}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
-  </style>
-</head>
-<body>
-<main>
-  <header>
-    <div class="mark" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M7 3.5h7l4 4V20a.5.5 0 0 1-.5.5h-11A.5.5 0 0 1 6 20V4a.5.5 0 0 1 .5-.5H7Z" stroke="currentColor" stroke-width="1.7"/><path d="M14 3.8V8h4.2M9 12h6M9 15.5h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
-    <h1>Pages Converter</h1>
-    <p>Pagesها تبدیل می‌شوند؛ بقیه فایل‌ها عیناً با همان ساختار کپی می‌شوند.</p>
-  </header>
-  <section class="card" aria-label="تبدیل فایل‌ها">
-    <div class="drop" id="dropZone">
-      <input id="picker" type="file" multiple aria-label="انتخاب فایل‌ها" />
-      <div><div class="upload-icon" aria-hidden="true"><svg width="25" height="25" viewBox="0 0 24 24" fill="none"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 14.5v4A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><strong>فایل‌ها را اینجا رها کنید</strong><span>Pages تبدیل می‌شود؛ PDF، Word و بقیه فایل‌ها کپی می‌شوند</span></div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="pages-token" content="__SESSION_TOKEN__" />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="description"
+      content="Convert Apple Pages documents to Word on your computer. Private, local batch conversion with Persian and English interfaces."
+    />
+    <title>Pages Converter</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+    <link rel="stylesheet" href="/assets/styles.css" />
+    <script src="/assets/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#workspace" data-i18n="skip">رفتن به مبدل</a>
+    <div class="shell">
+      <header class="nav">
+        <a class="brand" href="/" aria-label="Pages Converter"
+          ><span class="brand-mark"
+            ><svg class="icon"><use href="/assets/icons.svg#files"></use></svg></span
+          ><span
+            >pages<span class="brand-light">converter</span
+            ><small data-i18n="brandCaption">از Pages به امکانات بیشتر</small></span
+          ></a
+        >
+        <div class="nav-tools">
+          <span id="connection" class="connection"
+            ><span class="dot"></span
+            ><span id="connectionText" data-i18n="checking">در حال بررسی…</span></span
+          ><button id="languageBtn" class="tool" type="button" aria-label="Switch to English">EN</button
+          ><button id="themeBtn" class="tool" type="button" aria-label="تغییر پوسته">
+            <svg class="icon"><use id="themeIcon" href="/assets/icons.svg#moon"></use></svg></button
+          ><a
+            class="tool github-link"
+            href="https://github.com/maboox/pagestodoc"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="GitHub"
+            ><svg class="icon"><use href="/assets/icons.svg#github"></use></svg
+          ></a>
+        </div>
+      </header>
+      <main>
+        <section class="hero" aria-labelledby="heroTitle">
+          <div>
+            <div class="eyebrow">
+              <span class="mini-line"></span><span data-i18n="eyebrow">فایل‌های شما. روی کامپیوتر شما.</span>
+            </div>
+            <h1 id="heroTitle">
+              <span data-i18n="hero1">Pages را ورق بزنید.</span><br /><span
+                class="highlight"
+                data-i18n="hero2"
+                >با Word ادامه بدهید.</span
+              >
+            </h1>
+            <p data-i18n="heroDescription">
+              یک پوشه انتخاب کنید. فایل‌های Pages را به Word تبدیل کنید و همه‌چیز را با همان نظم، در یک ZIP
+              تحویل بگیرید.
+            </p>
+            <div class="hero-badges">
+              <span
+                ><svg class="icon"><use href="/assets/icons.svg#shield-check"></use></svg
+                ><span data-i18n="local">پردازش محلی</span></span
+              ><span
+                ><svg class="icon"><use href="/assets/icons.svg#folder-tree"></use></svg
+                ><span data-i18n="structure">حفظ ساختار پوشه‌ها</span></span
+              ><span
+                ><svg class="icon"><use href="/assets/icons.svg#lock-keyhole"></use></svg
+                ><span data-i18n="noAccount">بدون حساب کاربری</span></span
+              >
+            </div>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <span class="orbit orbit-one"></span><span class="orbit orbit-two"></span>
+            <div class="paper paper-back">
+              <span class="paper-corner"></span
+              ><svg class="icon"><use href="/assets/icons.svg#file-text"></use></svg><b>.pages</b><i></i
+              ><i></i><i></i>
+            </div>
+            <span class="art-arrow"
+              ><svg class="icon"><use href="/assets/icons.svg#arrow-right"></use></svg
+            ></span>
+            <div class="paper paper-front">
+              <span class="paper-corner"></span
+              ><svg class="icon"><use href="/assets/icons.svg#file-text"></use></svg><b>.docx</b><i></i><i></i
+              ><i></i
+              ><span class="paper-check"
+                ><svg class="icon"><use href="/assets/icons.svg#check"></use></svg
+              ></span>
+            </div>
+            <span class="art-caption">A little less friction. A lot more flow.</span>
+          </div>
+        </section>
+        <div id="dependencyNotice" class="notice" hidden>
+          <svg class="icon"><use href="/assets/icons.svg#circle-alert"></use></svg>
+          <div>
+            <strong data-i18n="missingTitle">LibreOffice پیدا نشد</strong>
+            <p data-i18n="missingDescription">
+              برای تبدیل Pages، LibreOffice را نصب کنید و وضعیت را دوباره بررسی کنید. کپی فایل‌های دیگر همچنان
+              ممکن است.
+            </p>
+            <a
+              href="https://www.libreoffice.org/download/download-libreoffice/"
+              target="_blank"
+              rel="noreferrer"
+              data-i18n="install"
+              >دریافت LibreOffice</a
+            >
+            · <button id="retryHealth" class="text-button" data-i18n="checkAgain">بررسی دوباره</button>
+          </div>
+        </div>
+        <div class="workspace-layout" id="workspace">
+          <section class="workspace card" aria-labelledby="workspaceTitle">
+            <div class="card-heading">
+              <div>
+                <span class="overline" data-i18n="workspaceLabel">میز کار شما</span>
+                <h2 id="workspaceTitle" data-i18n="workspaceTitle">یک شروع مرتب</h2>
+              </div>
+              <span class="format-badge" dir="ltr"
+                >PAGES <svg class="icon"><use href="/assets/icons.svg#arrow-right"></use></svg> DOCX</span
+              >
+            </div>
+            <ol class="steps" aria-label="Conversion steps">
+              <li id="step1" class="active"><span>01</span><b data-i18n="selectStep">انتخاب</b></li>
+              <li id="step2"><span>02</span><b data-i18n="convertStep">تبدیل</b></li>
+              <li id="step3"><span>03</span><b data-i18n="downloadStep">دریافت</b></li>
+            </ol>
+            <div id="dropZone" class="drop-zone">
+              <div class="upload-symbol">
+                <svg class="icon"><use href="/assets/icons.svg#upload"></use></svg>
+              </div>
+              <h3 data-i18n="dropTitle">فایل‌ها را اینجا رها کنید</h3>
+              <p data-i18n="dropDescription">یک فایل، چند فایل یا یک پوشهٔ کامل؛ انتخاب با شماست.</p>
+              <div class="pick-actions">
+                <button id="folderBtn" class="button yellow" type="button">
+                  <svg class="icon"><use href="/assets/icons.svg#folder-open"></use></svg
+                  ><span data-i18n="chooseFolder">انتخاب پوشه</span></button
+                ><button id="filesBtn" class="button secondary" type="button" data-i18n="chooseFiles">
+                  انتخاب فایل‌ها
+                </button>
+              </div>
+              <span class="drop-limit" data-i18n="limits">تا ۱ گیگابایت · حداکثر ۵۰۰ فایل</span
+              ><input id="picker" type="file" multiple hidden /><input
+                id="folderPicker"
+                type="file"
+                webkitdirectory
+                multiple
+                hidden
+              />
+            </div>
+            <section id="selection" class="selection" hidden aria-label="Selected files">
+              <div class="selection-heading">
+                <strong id="selectionCount"></strong
+                ><button id="clearBtn" class="text-button" type="button">
+                  <svg class="icon"><use href="/assets/icons.svg#trash-2"></use></svg
+                  ><span data-i18n="clear">پاک کردن همه</span>
+                </button>
+              </div>
+              <div class="selection-summary">
+                <span id="pagesCount"></span><span id="copyCount"></span
+                ><span id="totalSize" dir="ltr"></span>
+              </div>
+              <ul id="fileList" class="file-list"></ul>
+              <p id="listNote" class="fine-print" hidden></p>
+            </section>
+            <section id="progressBox" class="progress-panel" hidden aria-label="Conversion progress">
+              <div class="progress-heading"><strong id="progressTitle"></strong><b id="percent">0%</b></div>
+              <div
+                id="progressTrack"
+                class="track"
+                role="progressbar"
+                aria-label="Conversion progress"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="0"
+              >
+                <div id="progressBar"></div>
+              </div>
+              <p id="currentFile" class="current-file"></p>
+              <div class="progress-stats">
+                <span id="convertedStat"></span><span id="copiedStat"></span><span id="failedStat"></span>
+              </div>
+            </section>
+            <div id="status" class="status" role="status" aria-live="polite" hidden></div>
+            <div id="result" class="result" hidden>
+              <span class="result-icon"
+                ><svg class="icon"><use href="/assets/icons.svg#archive"></use></svg
+              ></span>
+              <div>
+                <h3 data-i18n="readyTitle">همه‌چیز آماده است</h3>
+                <p id="resultDescription"></p>
+                <p class="fine-print" data-i18n="expiry">لینک تا یک ساعت، در همین اجرای برنامه فعال است.</p>
+              </div>
+              <div class="result-downloads">
+                <button id="saveBtn" type="button" class="button yellow" hidden>
+                  <svg class="icon"><use href="/assets/icons.svg#arrow-down-to-line"></use></svg
+                  ><span id="saveText" data-i18n="saveZip">ذخیره ZIP</span>
+                </button>
+                <a id="downloadBtn" class="button yellow" download="pages-converter-output.zip"
+                  ><span data-i18n="downloadZip">دریافت ZIP</span></a
+                >
+              </div>
+            </div>
+            <div class="main-actions">
+              <button id="convertBtn" class="button primary" type="button" disabled>
+                <span id="convertText" data-i18n="convert">تبدیل و آماده‌سازی ZIP</span
+                ><svg class="icon"><use href="/assets/icons.svg#arrow-left"></use></svg></button
+              ><button id="cancelBtn" class="button secondary" type="button" hidden data-i18n="cancel">
+                لغو پردازش</button
+              ><button id="discardBtn" class="text-button" type="button" hidden data-i18n="discard">
+                حذف خروجی محلی
+              </button>
+            </div>
+            <p class="workspace-footnote">
+              <svg class="icon"><use href="/assets/icons.svg#hard-drive"></use></svg
+              ><span data-i18n="privateNote"
+                >فایل‌ها در همین دستگاه پردازش می‌شوند؛ بدون ارسال به فضای ابری.</span
+              >
+            </p>
+          </section>
+          <aside class="sidebar">
+            <section class="guide card">
+              <span class="overline" data-i18n="guideLabel">ساده، از ابتدا تا انتها</span>
+              <h2 data-i18n="guideTitle">نظم فایل‌ها حفظ می‌شود.</h2>
+              <p data-i18n="guideDescription">
+                فقط Pages تغییر می‌کند. فایل‌های دیگر با محتوای اصلی خود در خروجی قرار می‌گیرند.
+              </p>
+              <div class="folder-preview" dir="ltr" aria-label="Example output">
+                <div class="tree-root">
+                  <svg class="icon"><use href="/assets/icons.svg#folder-open"></use></svg>My project<span
+                    data-i18n="example"
+                    >نمونه</span
+                  >
+                </div>
+                <div class="tree-items">
+                  <div>
+                    <svg class="icon"><use href="/assets/icons.svg#file-text"></use></svg>Proposal.docx<span
+                      class="tag converted"
+                      >Word</span
+                    >
+                  </div>
+                  <div>
+                    <svg class="icon"><use href="/assets/icons.svg#file-text"></use></svg>Reference.pdf<span
+                      class="tag"
+                      >Original</span
+                    >
+                  </div>
+                  <div>
+                    <svg class="icon"><use href="/assets/icons.svg#folder-open"></use></svg>Assets/<span
+                      class="tag"
+                      >Original</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="guide-feature">
+                <svg class="icon"><use href="/assets/icons.svg#check"></use></svg
+                ><span data-i18n="feature1">نام‌های تکراری، بدون بازنویسی</span>
+              </div>
+              <div class="guide-feature">
+                <svg class="icon"><use href="/assets/icons.svg#check"></use></svg
+                ><span data-i18n="feature2">نگهداری اصل فایل در صورت خطا</span>
+              </div>
+              <div class="guide-feature">
+                <svg class="icon"><use href="/assets/icons.svg#check"></use></svg
+                ><span data-i18n="feature3">گزارش تبدیل در هر ZIP</span>
+              </div>
+            </section>
+            <section class="tip">
+              <span class="tip-symbol">✳</span>
+              <div>
+                <h3 data-i18n="tipTitle">یک نکتهٔ کوچک</h3>
+                <p data-i18n="tipDescription">
+                  چیدمان‌های پیچیده و بعضی فونت‌ها ممکن است تغییر کنند. فایل Word خروجی را پیش از استفاده
+                  نهایی بررسی کنید.
+                </p>
+              </div>
+            </section>
+            <details class="faq">
+              <summary data-i18n="faqTitle">چه فایل‌هایی پشتیبانی می‌شوند؟</summary>
+              <p data-i18n="faqAnswer">
+                فایل‌های تکیِ .pages که LibreOffice پشتیبانی کند، به .docx تبدیل می‌شوند. پوشه‌های بسته‌ای
+                Pages را ابتدا در macOS به فایل تکی ذخیره کنید. پوشه‌های خالی در انتخاب مرورگر منتقل نمی‌شوند.
+              </p>
+            </details>
+          </aside>
+        </div>
+      </main>
+      <footer>
+        <span>Pages Converter <span class="version">2.0.0</span></span
+        ><span data-i18n="footer">ساخته‌شده برای فایل‌های شما، با احترام به حریم خصوصی.</span
+        ><a href="https://github.com/maboox/pagestodoc" target="_blank" rel="noreferrer"
+          ><span data-i18n="openSource">متن‌باز، برای همه</span
+          ><svg class="icon"><use href="/assets/icons.svg#arrow-up-right"></use></svg
+        ></a>
+      </footer>
     </div>
-    <div class="folder-row">
-      <label class="folder-button">📁 انتخاب پوشه کامل<input id="folderPicker" type="file" webkitdirectory directory multiple aria-label="انتخاب پوشه کامل" /></label>
-      <span class="folder-note">همه زیرپوشه‌ها بررسی می‌شوند</span>
-    </div>
-    <div class="files" id="filesBox"><div class="files-head"><strong id="countLabel"></strong><button class="clear" id="clearBtn" type="button">پاک کردن</button></div><ul id="fileList"></ul></div>
-    <button class="primary" id="convertBtn" type="button" disabled>پردازش و دانلود ZIP با همان ساختار</button>
-    <div class="progress" id="progressBox" aria-live="polite">
-      <div class="progress-head"><strong id="progressPercent">۰٪</strong><span id="progressCount">۰ از ۰ فایل</span></div>
-      <div class="track"><div class="bar" id="progressBar"></div></div>
-      <div class="current" id="currentFile">در انتظار شروع…</div>
-      <div class="stats"><span id="convertedStat">تبدیل‌شده: ۰</span><span id="copiedStat">کپی‌شده: ۰</span><span id="failedStat">خطا: ۰</span></div>
-    </div>
-    <div class="status" id="status" role="status" aria-live="polite"></div>
-    <div class="privacy"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 5 6v5c0 4.8 2.9 8.1 7 10 4.1-1.9 7-5.2 7-10V6l-7-3Z" stroke="currentColor" stroke-width="1.7"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span>کاملاً لوکال: فایل‌ها از کامپیوتر شما خارج نمی‌شوند.</span></div>
-  </section>
-  <footer>Pages Converter v1.0 — Local, private, open source</footer>
-</main>
-<script>
-const $=id=>document.getElementById(id);
-const picker=$('picker'),folderPicker=$('folderPicker'),drop=$('dropZone'),box=$('filesBox'),list=$('fileList'),count=$('countLabel'),clear=$('clearBtn'),btn=$('convertBtn'),status=$('status'),progressBox=$('progressBox'),progressBar=$('progressBar'),progressPercent=$('progressPercent'),progressCount=$('progressCount'),currentFile=$('currentFile'),convertedStat=$('convertedStat'),copiedStat=$('copiedStat'),failedStat=$('failedStat');
-let entries=[];
-const esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const size=n=>n<1048576?`${(n/1024).toFixed(1)} KB`:`${(n/1048576).toFixed(1)} MB`;
-function render(){const pages=entries.filter(e=>e.path.toLowerCase().endsWith('.pages')).length,others=entries.length-pages;box.classList.toggle('visible',entries.length>0);btn.disabled=!entries.length;count.textContent=`${entries.length} فایل: ${pages} قابل تبدیل، ${others} کپی مستقیم`;list.innerHTML=entries.map(e=>`<li><span aria-hidden="true">${e.path.toLowerCase().endsWith('.pages')?'📄':'📎'}</span><span class="file-name">${esc(e.path)}</span><span class="size">${size(e.file.size)}</span></li>`).join('')}
-function add(selected,useRelative){const incoming=[...selected].map(f=>({file:f,path:(useRelative&&f.webkitRelativePath)||f.name}));const seen=new Set(entries.map(e=>`${e.path}:${e.file.size}:${e.file.lastModified}`));for(const e of incoming){const key=`${e.path}:${e.file.size}:${e.file.lastModified}`;if(!seen.has(key)){entries.push(e);seen.add(key)}}render();if(!incoming.length)show('هیچ فایلی در این انتخاب پیدا نشد.','error');else hideStatus()}
-picker.addEventListener('change',e=>{add(e.target.files,false);picker.value=''});folderPicker.addEventListener('change',e=>{add(e.target.files,true);folderPicker.value=''});
-['dragenter','dragover'].forEach(x=>drop.addEventListener(x,e=>{e.preventDefault();drop.classList.add('drag')}));['dragleave','drop'].forEach(x=>drop.addEventListener(x,e=>{e.preventDefault();drop.classList.remove('drag')}));drop.addEventListener('drop',e=>add(e.dataTransfer.files,false));clear.addEventListener('click',()=>{entries=[];render();hideStatus();progressBox.classList.remove('show')});
-function show(text,type){status.textContent=text;status.className=`status show ${type}`}function hideStatus(){status.className='status';status.textContent=''}
-function updateProgress(p){const total=p.total||entries.length,done=p.processed||0,percent=total?Math.round(done*100/total):0;progressBox.classList.add('show');progressBar.style.width=`${percent}%`;progressPercent.textContent=`${percent}٪`;progressCount.textContent=`${done} از ${total} فایل`;currentFile.textContent=p.current||((p.status==='done')?'ساخت ZIP کامل شد':'در حال آماده‌سازی…');convertedStat.textContent=`تبدیل‌شده: ${p.converted||0}`;copiedStat.textContent=`کپی‌شده: ${p.copied||0}`;failedStat.textContent=`خطا: ${p.failed||0}`}
-const wait=ms=>new Promise(r=>setTimeout(r,ms));
-btn.addEventListener('click',async()=>{if(!entries.length)return;btn.disabled=true;clear.disabled=true;btn.textContent='در حال آپلود فایل‌ها…';hideStatus();updateProgress({total:entries.length,processed:0,status:'uploading'});const data=new FormData();data.append('manifest',JSON.stringify(entries.map(e=>e.path)));entries.forEach(e=>data.append('files',e.file,e.file.name));try{const start=await fetch('/start',{method:'POST',body:data});const started=await start.json();if(!start.ok)throw new Error(started.error||'شروع پردازش ناموفق بود.');btn.textContent='در حال پردازش…';let p;while(true){await wait(650);const response=await fetch(`/progress?job=${encodeURIComponent(started.job)}`,{cache:'no-store'});p=await response.json();if(!response.ok)throw new Error(p.error||'دریافت وضعیت ناموفق بود.');updateProgress(p);if(p.status==='done')break;if(p.status==='error')throw new Error(p.error||'پردازش ناموفق بود.')}const a=document.createElement('a');a.href=`/download?job=${encodeURIComponent(started.job)}`;a.download='pages-converter-output.zip';document.body.appendChild(a);a.click();a.remove();show(`${p.converted} فایل Pages تبدیل و ${p.copied} فایل بدون تغییر کپی شد${p.failed?`؛ ${p.failed} خطا`:''}. دانلود ZIP شروع شد.`,'success')}catch(err){show(err.message,'error')}finally{btn.disabled=false;clear.disabled=false;btn.textContent='پردازش و دانلود ZIP با همان ساختار'}});
-render();
-</script>
-</body>
+    <noscript>This application requires JavaScript. این برنامه به جاوااسکریپت نیاز دارد.</noscript>
+  </body>
 </html>

@@ -1,0 +1,16 @@
+{
+  "name": "pages-converter-dev",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Development checks for the local Pages Converter interface",
+  "scripts": {
+    "format": "prettier --write index.html assets/app.js assets/styles.css tests/ui.cjs",
+    "check": "prettier --check index.html assets/app.js assets/styles.css tests/ui.cjs && node --check assets/app.js",
+    "test:ui": "node tests/ui.cjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "playwright": "1.64.1",
+    "prettier": "3.9.10"
+  }
+}
